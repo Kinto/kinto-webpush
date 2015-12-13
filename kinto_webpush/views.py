@@ -21,5 +21,3 @@ class WebPush(resource.UserResource):
         collection_id = request.matchdict['collection_id']
         return '/buckets/%s/collections/%s' % (bucket_id,
                                                collection_id)
-
-
