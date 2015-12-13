@@ -1,27 +1,8 @@
 import copy
+import requests
 
 from cliquet.events import ResourceChanged
 from kinto import authorization
-from pyramid.security import IAuthorizationPolicy
-from zope.interface import implementer
-
-INHERITANCE_TREE = copy.deepcopy(authorization.PERMISSIONS_INHERITANCE_TREE)
-INHERITANCE_TREE['collection:webpush:create'] = {
-    'webpush': ['read', 'write']
-}
-
-for key in INHERITANCE_TREE.keys():
-    if key.startswith(('collection:', 'records:')):
-        INHERITANCE_TREE[key]['webpush'] = ['write']
-
-
-@implementer(IAuthorizationPolicy)
-class AuthorizationPolicy(authorization.AuthorizationPolicy):
-    def get_bound_permissions(self, *args, **kwargs):
-
-        return authorization.build_permissions_set(
-            inheritance_tree=INHERITANCE_TREE,
-            *args, **kwargs)
 
 
 def includeme(config):
@@ -42,11 +23,10 @@ def includeme(config):
             # XXX Need to find a way to expire the URLs after some point,
             # otherwise they will just pile up and being pinged even if
             # useless.
-            recipients = event.request.storage.get_all(
-                collection_id=parent_id + "/webpush",
-                parent_id=parent_id)
-            
-            from pdb import set_trace; set_trace()
+            recipients, _ = event.request.registry.storage.get_all(
+                collection_id="webpush", parent_id=parent_id)
+            for recipient in recipients:
+                requests.post(recipient['url'])
 
     config.add_subscriber(on_resource_changed, ResourceChanged)
     config.scan('kinto_webpush.views')
