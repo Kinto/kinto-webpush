@@ -17,6 +17,4 @@ And then include the plugin in your ``kinto.ini`` file::
 
   kinto.includes = kinto_webpush
 
-Then, clients can send their push URIs at
-``/buckets/{id}/collections/{id}/webpush``, and each time an object changes,
-the User-Agents will be notified. That's all!
+It aims to implement the following blueprint: https://github.com/Kinto/kinto/wiki/WebHooks
