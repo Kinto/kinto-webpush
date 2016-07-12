@@ -7,7 +7,9 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     README = f.read()
 
-REQUIREMENTS = []
+REQUIREMENTS = [
+    'kinto',
+]
 
 setup(name='kinto-webpush',
       version='0.0.1',
