@@ -5,3 +5,4 @@ def includeme(config):
     message = "Register your WebPush endpoint to get notified on updates."
     docs = "https://github.com/Kinto/kinto-webpush"
     config.add_api_capability("webpush", message, docs)
+    config.scan('kinto_webpush.views')
