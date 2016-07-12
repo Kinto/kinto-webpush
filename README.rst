@@ -5,6 +5,15 @@ Integration of Kinto with `WebPush
 <https://tools.ietf.org/html/draft-ietf-webpush-protocol-02>`_, in order to
 notify user agents of new changes.
 
+|travis| |coveralls|
+
+.. |travis| image:: https://travis-ci.org/Kinto/kinto-webpush.svg?branch=master
+    :target: https://travis-ci.org/Kinto/kinto-webpush
+
+.. |coveralls| image:: https://coveralls.io/repos/github/Kinto/kinto-webpush/badge.svg?branch=master
+    :target: https://coveralls.io/github/Kinto/kinto-webpush?branch=master
+
+
 Installation
 ============
 
