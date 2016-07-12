@@ -10,7 +10,8 @@ class HelloViewTest(BaseWebTest, unittest.TestCase):
         capabilities = resp.json["capabilities"]
         self.assertIn("webpush", capabilities)
         expected = {
-            "description": "Register your WebPush endpoint to get notified on updates.",
+            "description": ("Register your WebPush endpoint "
+                            "to get notified on updates."),
             "url": "https://github.com/Kinto/kinto-webpush",
 
         }
