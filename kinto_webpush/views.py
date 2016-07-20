@@ -26,7 +26,7 @@ def trigger_valid(node, mapping):
 
         raise colander.Invalid(node, "Trigger key %s is invalid." % key)
 
-    for value in mapping.values()[0]:
+    for value in list(mapping.values())[0]:
         if value not in ('read', 'write'):
             raise colander.Invalid(node,
                                    "%s is not a valid permission "
