@@ -1,13 +1,8 @@
-from pyramid.config import Configurator
-
 def includeme(config):
-    config.include("cornice")
-    config.scan("kinto_webpush.views")
+    # settings = config.get_settings()
 
-def main(global_config, **settings):
+    # Expose the capabilities in the root endpoint.
     message = "Register your WebPush endpoint to get notified on updates."
     docs = "https://github.com/Kinto/kinto-webpush"
     config.add_api_capability("webpush", message, docs)
-    config = Configurator(settings=settings)
-    config.include(includeme)
-    return config.make_wsgi_app()
+    config.scan('kinto_webpush.views')
