@@ -1,6 +1,6 @@
-
 from kinto.tests.core.support import unittest
 
+from kinto_webpush import __version__ as webpush_version
 from . import BaseWebTest
 
 
@@ -13,6 +13,6 @@ class HelloViewTest(BaseWebTest, unittest.TestCase):
             "description": ("Register your WebPush endpoint "
                             "to get notified on updates."),
             "url": "https://github.com/Kinto/kinto-webpush",
-
+            "version": webpush_version
         }
         self.assertEqual(expected, capabilities["webpush"])

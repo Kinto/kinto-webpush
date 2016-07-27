@@ -18,6 +18,7 @@ $(INSTALL_STAMP): $(PYTHON) setup.py
 
 install-dev: $(INSTALL_STAMP) $(DEV_STAMP)
 $(DEV_STAMP): $(PYTHON) dev-requirements.txt
+	$(VENV)/bin/pip install -U pip
 	$(VENV)/bin/pip install -r dev-requirements.txt
 	touch $(DEV_STAMP)
 
