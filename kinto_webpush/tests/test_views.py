@@ -99,3 +99,30 @@ class SubscriptionViewTest(BaseWebTest, unittest.TestCase):
                            {"data": record},
                            headers=self.headers,
                            status=400)
+
+    def test_user_can_update_their_subscription(self):
+        response = self.app.post_json("/notifications/webpush",
+                           {"data": SUBSCRIPTION_RECORD},
+                           headers=self.headers)
+        record_id = response.json['data']['id']
+        record = deepcopy(SUBSCRIPTION_RECORD)
+        record['push']['endpoint'] = 'https://push.mozilla/newendpoint.com'
+        resp = self.app.put_json('/notifications/webpush/%s' % record_id,
+                                 {"data": record},
+                                 headers=self.headers)
+        endpoint = resp.json['data']['push']['endpoint']
+        assert endpoint == 'https://push.mozilla/newendpoint.com'
+
+
+    def test_user_can_modify_its_subscription_endpoint(self):
+        response = self.app.post_json("/notifications/webpush",
+                           {"data": SUBSCRIPTION_RECORD},
+                           headers=self.headers)
+        record_id = response.json['data']['id']
+        body = {"push": {"endpoint": "https://push.mozilla/newendpoint.com",
+                         "keys": SUBSCRIPTION_RECORD['push']['keys']}}
+        resp = self.app.patch_json("/notifications/webpush/%s" % record_id,
+                                    {"data": body},
+                                    headers=self.headers)
+        endpoint = resp.json['data']['push']['endpoint']
+        assert endpoint == 'https://push.mozilla/newendpoint.com'
