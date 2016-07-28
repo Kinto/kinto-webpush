@@ -2,6 +2,7 @@ import os
 
 import webtest
 from kinto.tests.core import support as core_support
+from kinto.tests.support import get_user_headers
 
 
 class BaseWebTest(object):
@@ -10,6 +11,10 @@ class BaseWebTest(object):
     def __init__(self, *args, **kwargs):
         super(BaseWebTest, self).__init__(*args, **kwargs)
         self.app = self.make_app()
+        self.headers = {
+            'Content-Type': 'application/json',
+        }
+        self.headers.update(get_user_headers('mat'))
 
     def make_app(self):
         curdir = os.path.dirname(os.path.realpath(__file__))
