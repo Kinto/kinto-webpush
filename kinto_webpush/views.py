@@ -6,7 +6,7 @@ import colander
 # Validator
 def trigger_valid(node, mapping):
     print(mapping)
-    for key in mapping.keys():
+    for key in sorted(mapping.keys()):
         parts = key.split('/')
         if parts[0] != '' or parts[1] != 'buckets':
             raise colander.Invalid(node,
@@ -15,20 +15,20 @@ def trigger_valid(node, mapping):
 
         if len(parts) < 4:
             # This is a valid bucket.
-            break
+            continue
 
         elif len(parts) < 6:
             if parts[3] in ('collections', 'groups'):
                 # This is a valid collection or group.
-                break
+                continue
         elif len(parts) < 8:
             if parts[3] == 'collections' and parts[5] == "records":
                 # This is a valid record.
-                break
+                continue
 
         raise colander.Invalid(node, "Trigger key %s is invalid." % key)
 
-    for value in list(mapping.values())[0]:
+    for value in sorted(mapping.values())[0]:
         if value not in ('read', 'write'):
             raise colander.Invalid(node,
                                    "%s is not a valid permission "
