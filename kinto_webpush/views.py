@@ -1,9 +1,11 @@
+from __future__ import print_function
 from kinto.core import resource
 import colander
 
 
 # Validator
 def trigger_valid(node, mapping):
+    print(mapping)
     for key in mapping.keys():
         parts = key.split('/')
         if parts[0] != '' or parts[1] != 'buckets':

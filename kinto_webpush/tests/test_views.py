@@ -1,3 +1,4 @@
+from __future__ import print_function
 from copy import deepcopy
 from kinto.tests.core.support import unittest
 
@@ -40,6 +41,7 @@ class SubscriptionViewTest(BaseWebTest, unittest.TestCase):
     def test_trigger_that_register_a_wrong_resource_is_rejected(self):
         record = deepcopy(SUBSCRIPTION_RECORD)
         record['triggers']['/wrong/endpoint'] = ['read']
+        print(record)
         self.app.post_json("/notifications/webpush",
                            {"data": record},
                            headers=self.headers,
