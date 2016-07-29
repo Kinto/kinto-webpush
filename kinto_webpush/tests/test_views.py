@@ -113,7 +113,7 @@ class SubscriptionViewTest(BaseWebTest, unittest.TestCase):
         endpoint = resp.json['data']['push']['endpoint']
         assert endpoint == 'https://push.mozilla/newendpoint.com'
 
-    def test_user_can_modify_its_subscription_endpoint(self):
+    def test_user_can_modify_their_subscription_endpoint(self):
         response = self.app.post_json("/notifications/webpush",
                                       {"data": SUBSCRIPTION_RECORD},
                                       headers=self.headers)
