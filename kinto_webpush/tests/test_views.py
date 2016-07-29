@@ -131,3 +131,15 @@ class SubscriptionViewTest(BaseWebTest, unittest.TestCase):
                      {"data": SUBSCRIPTION_RECORD},
                      headers=self.headers,
                      status=405)
+
+    def test_user_can_modify_their_trigger_action(self):
+        response = self.app.post_json("/notifications/webpush",
+                                      {"data": SUBSCRIPTION_RECORD},
+                                      headers=self.headers)
+        record_id = response.json['data']['id']
+        body = {'triggers': {'/buckets/foo/collections/bar/records': ['read']}}
+        resp = self.app.patch_json("/notifications/webpush/%s" % record_id,
+                                   {"data": body},
+                                   headers=self.headers)
+        trigger = resp.json['data']['triggers']
+        assert trigger == {'/buckets/foo/collections/bar/records': ['read']}
