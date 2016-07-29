@@ -143,3 +143,51 @@ class SubscriptionViewTest(BaseWebTest, unittest.TestCase):
                                    headers=self.headers)
         trigger = resp.json['data']['triggers']
         assert trigger == {'/buckets/foo/collections/bar/records': ['read']}
+
+    def test_user_can_modify_trigger_to_register_a_valid_bucket(self):
+        response = self.app.post_json("/notifications/webpush",
+                                      {"data": SUBSCRIPTION_RECORD},
+                                      headers=self.headers)
+        record_id = response.json['data']['id']
+        body = {'triggers': {'/buckets/endpoint': ['read']}}
+        resp = self.app.patch_json("/notifications/webpush/%s" % record_id,
+                                   {"data": body},
+                                   headers=self.headers)
+        trigger = resp.json['data']['triggers']
+        assert trigger == {'/buckets/endpoint': ['read']}
+
+    def test_user_can_modify_trigger_to_register_a_valid_collection(self):
+        response = self.app.post_json("/notifications/webpush",
+                                      {"data": SUBSCRIPTION_RECORD},
+                                      headers=self.headers)
+        record_id = response.json['data']['id']
+        body = {'triggers': {'/buckets/foo/collections/bar': ['read']}}
+        resp = self.app.patch_json("/notifications/webpush/%s" % record_id,
+                                   {"data": body},
+                                   headers=self.headers)
+        trigger = resp.json['data']['triggers']
+        assert trigger == {'/buckets/foo/collections/bar': ['read']}
+
+    def test_user_can_modify_trigger_to_register_a_valid_group(self):
+        response = self.app.post_json("/notifications/webpush",
+                                      {"data": SUBSCRIPTION_RECORD},
+                                      headers=self.headers)
+        record_id = response.json['data']['id']
+        body = {'triggers': {'/buckets/foo/groups/bar': ['read']}}
+        resp = self.app.patch_json("/notifications/webpush/%s" % record_id,
+                                   {"data": body},
+                                   headers=self.headers)
+        trigger = resp.json['data']['triggers']
+        assert trigger == {'/buckets/foo/groups/bar': ['read']}
+
+    def test_user_can_modify_trigger_to_register_a_valid_record(self):
+        response = self.app.post_json("/notifications/webpush",
+                                      {"data": SUBSCRIPTION_RECORD},
+                                      headers=self.headers)
+        record_id = response.json['data']['id']
+        body = {'triggers': {'/buckets/foo/collections/bar/records': ['read']}}
+        resp = self.app.patch_json("/notifications/webpush/%s" % record_id,
+                                   {"data": body},
+                                   headers=self.headers)
+        trigger = resp.json['data']['triggers']
+        assert trigger == {'/buckets/foo/collections/bar/records': ['read']}
