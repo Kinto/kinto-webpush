@@ -1,8 +1,8 @@
 import os
 
 import webtest
-from kinto.tests.core import support as core_support
-from kinto.tests.support import get_user_headers
+from kinto.core import testing as core_support
+from kinto.core.testing import get_user_headers
 
 
 class BaseWebTest(object):

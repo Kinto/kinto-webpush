@@ -1,5 +1,5 @@
+import unittest
 from copy import deepcopy
-from kinto.tests.core.support import unittest
 
 from . import BaseWebTest
 

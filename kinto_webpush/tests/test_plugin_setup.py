@@ -1,4 +1,4 @@
-from kinto.tests.core.support import unittest
+import unittest
 
 from kinto_webpush import __version__ as webpush_version
 from . import BaseWebTest
