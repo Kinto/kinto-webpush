@@ -1,6 +1,8 @@
+import re
 import requests
 
 from kinto.core.utils import instance_uri
+from six import iteritems
 
 
 def on_resource_changed(event):
@@ -14,6 +16,8 @@ def on_resource_changed(event):
     action = payload['action']
     resource_name = payload['resource_name']
     event_uri = payload['uri']
+
+    permission = (action == "read") and "read" or "write"
 
     settings = event.request.registry.settings
 
@@ -31,5 +35,14 @@ def on_resource_changed(event):
     storage = event.request.registry.storage
 
     # Get all subscriptions
-    subscriptions = storage.get_all('subscription', '*')
+    subscriptions, _ = storage.get_all('subscription', '*')
     import pdb; pdb.set_trace()
+    for subscription in subscriptions:
+        for pattern, permissions in iteritems(subscription['triggers']):
+            pattern = re.compile('^%s$' % pattern.replace('*', '.*'))
+            if collection_uri is not None:
+                if pattern.match(collection_uri) and permission in permissions:
+                    requests.post(subscription['push']['endpoint'])
+            else:
+                if pattern.match(bucket_uri) and permission in permissions:
+                    requests.post(subscription['push']['endpoint'])
