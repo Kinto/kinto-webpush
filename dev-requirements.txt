@@ -3,7 +3,7 @@ mock
 pytest-watch
 pytest-cache
 pytest-capturelog
-pytest-cover
+pytest-cov
 pytest-sugar
 tox
 unittest2
