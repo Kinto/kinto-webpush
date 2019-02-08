@@ -1,8 +1,7 @@
 language: python
-python: 2.7
+python: 3.6
 env:
-    - TOX_ENV=py27
-    - TOX_ENV=py34
+    - TOX_ENV=py36
     - TOX_ENV=kinto-master
     - TOX_ENV=flake8
 install:
@@ -11,9 +10,10 @@ script:
     - tox -e $TOX_ENV
 matrix:
   include:
-    - python: 3.5
+    - python: 3.7
+      dist: xenial
       env:
-        - TOX_ENV=py35
+        - TOX_ENV=py37
 after_success:
     # Report coverage results to coveralls.io
     - pip install coveralls
